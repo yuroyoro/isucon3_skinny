@@ -1,0 +1,25 @@
+<%@val s: skinny.Skinny %>
+<%@val urlFor: Function1[String,String] %>
+<%@val user: Option[model.Users]= None %>
+<%@val memos: List[model.Memos] %>
+<% attributes("user") = user  %>
+<form action="<%= urlFor("/memo") %>" method="post">
+  <input type="hidden" name="sid" value="<%= session.get("token").getOrElse("") %>">
+  <textarea name="content"></textarea>
+  <br>
+  <input type="checkbox" name="is_private" value="1"> private
+  <input type="submit" value="post">
+</form>
+
+<h3>my memos</h3>
+
+<ul>
+#for(memo <- memos)
+<li>
+  <a href='<%= urlFor.apply("/memo/")%><%= memo.id.toString %>'><%= memo.content.flatMap(_.split("""\r?\n""").headOption).getOrElse("")%></a> by <%= memo.username.getOrElse("") %> (<%= memo.createdAt.toString("yyyy-MM-dd HH:mm:ss") %>)
+#if(memo.isPrivate == 1)
+[private]
+#end
+</li>
+#end
+</ul>

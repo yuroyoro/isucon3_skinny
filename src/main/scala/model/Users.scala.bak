@@ -1,0 +1,52 @@
+package model
+
+import scalikejdbc._, SQLInterpolation._
+import org.joda.time._
+import skinny.orm.SkinnyCRUDMapper
+import skinny.orm.feature.{ TimestampsFeature, SoftDeleteWithTimestampFeature }
+
+case class Users(
+    id: Int,
+    username: String,
+    password: String,
+    salt: String,
+    lastAccess: Option[DateTime] = None) {
+
+  def updateLastAccess()(implicit session: DBSession = Users.autoSession): Unit = Users.updateLastAccess(this)(session)
+}
+
+object Users extends SkinnyCRUDMapper[Users]
+    with TimestampsFeature[Users] {
+
+  override val tableName = "users"
+  // override val columns = Seq("id", "username", "password", "salt", "last_access")
+  val u = Memos.syntax("u")
+
+  override def extract(rs: WrappedResultSet, u: ResultName[Users]): Users = new Users(
+    id = rs.int(u.id),
+    username = rs.string(u.username),
+    password = rs.string(u.password),
+    salt = rs.string(u.salt),
+    lastAccess = rs.timestampOpt(u.lastAccess).map(_.toDateTime)
+  )
+
+  def parse(rs: WrappedResultSet): Users = extract(rs, u.resultName)
+
+  def nameOf(id: Int)(implicit session: DBSession = autoSession): Option[String] = {
+    withSQL {
+      select(u.username).from(Users as u).where.eq(u.id, id)
+    }.map(rs => rs.string(1)).single.apply()
+  }
+
+  def findByName(username: String)(implicit session: DBSession = autoSession): Option[Users] = {
+    withSQL {
+      select.from(Users as u).where.eq(u.username, username)
+    }.map(parse).single.apply()
+  }
+
+  def updateLastAccess(entity: Users)(implicit session: DBSession = autoSession): Unit = {
+    withSQL {
+      update(Users as u).set(sqls"last_access=now()").where.eq(u.id, entity.id)
+    }.update.apply()
+  }
+}

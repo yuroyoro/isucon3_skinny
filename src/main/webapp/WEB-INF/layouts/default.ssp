@@ -1,0 +1,59 @@
+<%@val s: skinny.Skinny %>
+<%@val user: Option[model.Users] = None %>
+<%@val urlFor: Function1[String, String] %>
+<%@val body: String %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+<title>Isucon3</title>
+<link rel="stylesheet" href="<%=urlFor.apply("/css/bootstrap.min.css")%>">
+<style>
+body {
+  padding-top: 60px;
+}
+</style>
+<link rel="stylesheet" href="<%=urlFor.apply("/css/bootstrap-responsive.min.css")%>">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner">
+<div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</a>
+<a class="brand" href="/">Isucon3</a>
+<div class="nav-collapse">
+<ul class="nav">
+<li><a href="<%=urlFor.apply("/")%>">Home</a></li>
+#if(!user.map(_.username).isEmpty)
+<li><a href="<%=urlFor.apply("/mypage")%>">MyPage</a></li>
+<li>
+  <form action="/signout" method="post">
+    <input type="hidden" name="sid" value="<%= session.get("token").getOrElse("") %>">
+    <input type="submit" value="SignOut">
+  </form>
+</li>
+#else
+<li><a href="<%= urlFor.apply("/signin") %>">SignIn</a></li>
+#end
+</ul>
+</div> <!--/.nav-collapse -->
+</div>
+</div>
+</div>
+
+<div class="container">
+<h2>Hello <%= user.map(_.username).getOrElse("") %>!</h2>
+
+<%= unescape(body) %>
+
+</div> <!-- /container -->
+
+<script type="text/javascript" src="<%= urlFor.apply("/js/jquery.min.js") %>"></script>
+<script type="text/javascript" src="<%= urlFor.apply("/js/bootstrap.min.js") %>"></script>
+</body>
+</html>

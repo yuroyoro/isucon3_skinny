@@ -1,0 +1,30 @@
+<%@val s: skinny.Skinny %>
+<%@val urlFor: Function1[String,String] %>
+<%@val user: Option[model.Users]= None %>
+<%@val memo: model.Memos %>
+<%@val newer: Option[model.Memos] %>
+<%@val older: Option[model.Memos] %>
+<% attributes("user") = user  %>
+
+<p id="author">
+#if(memo.isPrivate  == 1)
+Private
+#else
+Public
+#end
+Memo by <%= memo.username %> (<%= memo.createdAt.toString("yyyy-MM-dd HH:mm:ss") %>)
+</p>
+
+<hr>
+#if(!older.isEmpty)
+<a id="older" href="<%= urlFor("/memo/") %><%= older.map(_.id.toString).getOrElse("") %>">&lt; older memo</a>
+#end
+|
+#if(!newer.isEmpty)
+<a id="newer" href="<%= urlFor("/memo/") %><%= newer.map(_.id.toString).getOrElse("") %>">newer memo&gt;</a>
+#end
+
+<hr>
+<div id="content_html">
+<%= unescape(memo.contentHtml.getOrElse("")) %>
+</div>

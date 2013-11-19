@@ -1,0 +1,19 @@
+<%@val s: skinny.Skinny %>
+<%@val memos: List[model.Memos] %>
+<%@val total: Long %>
+<%@val page: Int %>
+<%@val urlFor: Function1[String,String] %>
+<%@val user: Option[model.Users] = None %>
+<% attributes("user") = user  %>
+<h3>public memos</h3>
+
+<p id="pager">
+  recent <%= page * 100 + 1 %>  - <%=page * 100 + 100%> / total <span id="total"><%= total %></span>
+</p>
+<ul id="memos">
+#for(memo <- memos)
+<li>
+  <a href='<%= urlFor.apply("/memo/")%><%= memo.id.toString %>'><%= memo.content.flatMap(_.split("""\r?\n""").headOption).getOrElse("")%></a> by <%= memo.username.getOrElse("") %> (<%= memo.createdAt.toString("yyyy-MM-dd HH:mm:ss") %>)
+</li>
+#end
+</ul>

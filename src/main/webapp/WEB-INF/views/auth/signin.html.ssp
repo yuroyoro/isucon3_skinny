@@ -1,0 +1,11 @@
+<%@val s: skinny.Skinny %>
+<%@val urlFor: Function1[String,String] %>
+<%@val user: Option[model.Users] %>
+<% attributes("user") = user  %>
+<form action="<%= urlFor("/signin") %>" method="post">
+username <input type="text" name="username" size="20">
+<br>
+password <input type="password" name="password" size="20">
+<br>
+<input type="submit" value="signin">
+</form>
