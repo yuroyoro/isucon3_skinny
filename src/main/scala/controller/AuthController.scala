@@ -20,7 +20,7 @@ class AuthController extends ApplicationController with Helper {
       "token" -> token,
       "urlFor" -> urlFor
     ))
-    render("/auth/signin")
+    render("auth/signin")
   }
 
   def signin = {
@@ -44,7 +44,7 @@ class AuthController extends ApplicationController with Helper {
         "token" -> "",
         "urlFor" -> urlFor
       ))
-      render("/auth/signin")
+      render("auth/signin")
     }
   }
 }

@@ -36,8 +36,8 @@ trait Helper {
   def appendCacheControl: Unit =
     response.setHeader("Cache-Control", "private")
 
-  val markdownCmd = "/Users/ozaki/dev/isucon/webapp/bin/markdown"
-  // val markdownCmd = "/home/isucon/webapp/bin/markdown"
+  // val markdownCmd = "/Users/ozaki/dev/isucon/webapp/bin/markdown"
+  val markdownCmd = "/home/isucon/webapp/bin/markdown"
   def genMarkdown(md: String): String = {
     val tmp = File.createTempFile("isucontemp", "")
     val out = new BufferedWriter(new FileWriter(tmp))
@@ -50,7 +50,7 @@ trait Helper {
     html
   }
 
-  def urlFor: String => String = (path: String) => s"http://${request.getServerName}:8080${path}"
+  def urlFor: String => String = (path: String) => s"http://${request.getServerName}${path}"
 
   def sha256(s: String) = {
     import java.security.MessageDigest

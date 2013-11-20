@@ -9,6 +9,7 @@ class MemosController extends ApplicationController with Helper {
     requireUser { user =>
       val memos = Memos.findByUser(user.id)
       val token = session.get("token").getOrElse("")
+      appendCacheControl
 
       requestScope += ("user" -> Option(user))
       set(Seq(
@@ -16,7 +17,7 @@ class MemosController extends ApplicationController with Helper {
         "memos" -> memos,
         "urlFor" -> urlFor
       ))
-      render("/memos/mypage")
+      render("memos/mypage")
     }
   }
 
@@ -48,7 +49,7 @@ class MemosController extends ApplicationController with Helper {
         "memo" -> memo,
         "urlFor" -> urlFor
       ))
-      render("/memos/show")
+      render("memos/show")
     }).getOrElse {
       halt(404)
     }
@@ -65,7 +66,7 @@ class MemosController extends ApplicationController with Helper {
           createdAt = now,
           updatedAt = now
         )
-        redirect(s"/memos/${memo.id}")
+        redirect(s"/memo/${memo.id}")
       }
     }
   }

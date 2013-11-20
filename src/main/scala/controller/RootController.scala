@@ -1,9 +1,15 @@
 package controller
+import skinny._
 import model._
 
 class RootController extends ApplicationController with Helper {
 
   def index = {
+    if(SkinnyEnv.isProduction() ){
+      info("################ Skinny Env: Production")
+    } else {
+      info("################ Skinny Env: Develop")
+    }
     val user = getUser
     val token = session.get("token").getOrElse("")
     val total = Memos.total
@@ -19,7 +25,7 @@ class RootController extends ApplicationController with Helper {
       "total" -> total,
       "urlFor" -> urlFor
     ))
-    render("/root/index")
+    render("root/index")
   }
 
   def recent = {
@@ -42,7 +48,7 @@ class RootController extends ApplicationController with Helper {
           "total" -> total,
           "urlFor" -> urlFor
         ))
-        render("/root/index")
+        render("root/index")
     }
   }
 }

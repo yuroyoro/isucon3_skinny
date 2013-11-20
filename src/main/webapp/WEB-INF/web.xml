@@ -8,5 +8,12 @@
         <listener-class>org.scalatra.servlet.ScalatraListener</listener-class>
     </listener>
 
+    <session-config>
+        <session-timeout>720</session-timeout>
+        <tracking-mode>COOKIE</tracking-mode>
+        <cookie-config>
+            <name>isucon_session</name>
+        </cookie-config>
+    </session-config>
 </web-app>
 
