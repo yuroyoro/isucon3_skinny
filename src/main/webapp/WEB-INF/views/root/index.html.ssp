@@ -4,7 +4,9 @@
 <%@val page: Int %>
 <%@val urlFor: Function1[String,String] %>
 <%@val user: Option[model.Users] = None %>
+<%@val token: String %>
 <% attributes("user") = user  %>
+<% attributes("token") = token %>
 <h3>public memos</h3>
 
 <p id="pager">

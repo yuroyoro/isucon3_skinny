@@ -1,7 +1,9 @@
 <%@val s: skinny.Skinny %>
 <%@val urlFor: Function1[String,String] %>
 <%@val user: Option[model.Users] %>
+<%@val token: String %>
 <% attributes("user") = user  %>
+<% attributes("token") = token%>
 <form action="<%= urlFor("/signin") %>" method="post">
 username <input type="text" name="username" size="20">
 <br>

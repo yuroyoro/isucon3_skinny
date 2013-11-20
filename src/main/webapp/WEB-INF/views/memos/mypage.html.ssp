@@ -2,9 +2,11 @@
 <%@val urlFor: Function1[String,String] %>
 <%@val user: Option[model.Users]= None %>
 <%@val memos: List[model.Memos] %>
+<%@val token: String %>
 <% attributes("user") = user  %>
+<% attributes("token") = token %>
 <form action="<%= urlFor("/memo") %>" method="post">
-  <input type="hidden" name="sid" value="<%= session.get("token").getOrElse("") %>">
+  <input type="hidden" name="sid" value="<%= token %>">
   <textarea name="content"></textarea>
   <br>
   <input type="checkbox" name="is_private" value="1"> private

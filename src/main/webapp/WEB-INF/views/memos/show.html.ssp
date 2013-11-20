@@ -4,7 +4,9 @@
 <%@val memo: model.Memos %>
 <%@val newer: Option[model.Memos] %>
 <%@val older: Option[model.Memos] %>
+<%@val token: String %>
 <% attributes("user") = user  %>
+<% attributes("token") = token %>
 
 <p id="author">
 #if(memo.isPrivate  == 1)

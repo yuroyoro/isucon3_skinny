@@ -8,10 +8,11 @@ class MemosController extends ApplicationController with Helper {
   def mypage = {
     requireUser { user =>
       val memos = Memos.findByUser(user.id)
+      val token = session.get("token").getOrElse("")
 
-      scala.Console.println(s"mypage user: ${user}")
       requestScope += ("user" -> Option(user))
       set(Seq(
+        "token" -> token,
         "memos" -> memos,
         "urlFor" -> urlFor
       ))
@@ -22,8 +23,7 @@ class MemosController extends ApplicationController with Helper {
   def show = {
     val memoId = params("memoId").toInt
     val user = getUser
-    Console.println(s"memoId: ${memoId} : user : ${user}")
-    Console.println(s"memo ${Memos.find(memoId)}")
+    val token = session.get("token").getOrElse("")
 
     (for {
       m <- Memos.find(memoId)
@@ -44,6 +44,7 @@ class MemosController extends ApplicationController with Helper {
       requestScope += ("newer" -> newer)
       requestScope += ("older" -> older)
       set(Seq(
+        "token" -> token,
         "memo" -> memo,
         "urlFor" -> urlFor
       ))

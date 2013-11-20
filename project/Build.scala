@@ -51,7 +51,7 @@ object SkinnyAppBuild extends Build {
   lazy val build = Project(id = "build", base = file("build"),
     settings = Defaults.defaultSettings ++ ScalatraPlugin.scalatraWithJRebel ++ scalateSettings ++ Seq(
       organization := "com.github.seratch",
-      name := "skinny-blank-app",
+      name := "isucon3_skinny",
       version := "0.0.1-SNAPSHOT",
       scalaVersion := _scalaVersion,
       resolvers ++= _resolovers,

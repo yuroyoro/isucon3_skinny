@@ -2,6 +2,7 @@
 <%@val user: Option[model.Users] = None %>
 <%@val urlFor: Function1[String, String] %>
 <%@val body: String %>
+<%@val token: String %>
 
 <!DOCTYPE html>
 <html>
@@ -33,7 +34,7 @@ body {
 <li><a href="<%=urlFor.apply("/mypage")%>">MyPage</a></li>
 <li>
   <form action="/signout" method="post">
-    <input type="hidden" name="sid" value="<%= session.get("token").getOrElse("") %>">
+    <input type="hidden" name="sid" value="<%= token %>">
     <input type="submit" value="SignOut">
   </form>
 </li>

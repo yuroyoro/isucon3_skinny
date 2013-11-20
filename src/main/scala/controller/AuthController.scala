@@ -14,8 +14,10 @@ class AuthController extends ApplicationController with Helper {
 
   def index = {
     val user = getUser
+    val token = session.get("token").getOrElse("")
     requestScope += ("user" -> user)
     set(Seq(
+      "token" -> token,
       "urlFor" -> urlFor
     ))
     render("/auth/signin")
@@ -39,6 +41,7 @@ class AuthController extends ApplicationController with Helper {
     }).getOrElse {
       requestScope += ("user" -> None)
       set(Seq(
+        "token" -> "",
         "urlFor" -> urlFor
       ))
       render("/auth/signin")

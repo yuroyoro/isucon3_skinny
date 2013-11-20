@@ -30,8 +30,6 @@ trait Helper {
   }
 
   def getUser: Option[Users] = {
-    scala.Console.println(s"session user_id ${session.get("user_id")}")
-
     session.get("user_id").flatMap { user_id => Users.find(user_id.toString.toInt) }
   }
 
